@@ -4,6 +4,8 @@
 제 미천한 코드가 도움이 될지 모르겠으나, 편하게 가져가서 쓰세요.<br>
 출처 남기지 않으셔도 됩니다. (원출처인 Dark Tornado님껀 남겨주세요)
 
+
+
 # 기본적인 세팅
 Dark Tornado 님의 카카오톡 봇을 사용합니다.
 <br>[닼토님의 블로그](https://m.blog.naver.com/PostView.nhn?blogId=dt3141592&logNo=221213789127&proxyReferer=https%3A%2F%2Fwww.google.com%2F) / [닼토님의 깃헙](https://github.com/DarkTornado) / [닼토님의 카카오톡봇](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko)
@@ -15,11 +17,15 @@ Dark Tornado 님의 카카오톡 봇을 사용합니다.
 <br>6. 카카오톡봇 앱에 접속하여 생성한 봇의 점3개 메뉴를 클릭하여 리로드를 누릅니다.
 <br>7. 이러면 대충 돌아갈겁니다. 안돌아가면 그때부터 코드를 좀 보셔야할텐데 굳럭입니다.
 
+
+
 # 기본적인 업데이트 방법
 리서치, 레이드 정보 등이 바뀜에 따라, 업데이트가 필요할겁니다.<br>
 DoriDB 안에 텍스트파일의 이름을 보시고 대충 바꾸시면 될겁니다.<br>
 ex1) 리서치를 바꿔야 한다 -> research____.txt<br>
 ex2) 이벤트 정보를 업데이트 해야한다 -> event.txt<br>
+
+
 
 # 내역
 - 2018.09.03 봇 생성 (레이드 제보봇)<br>
