@@ -7,7 +7,7 @@
 Dark Tornado 님의 카카오톡 봇을 사용합니다.
 <br>[닼토님의 블로그](https://m.blog.naver.com/PostView.nhn?blogId=dt3141592&logNo=221213789127&proxyReferer=https%3A%2F%2Fwww.google.com%2F)
 <br>[닼토님의 깃헙](https://github.com/DarkTornado)
-<br>[닼토님의 카카오톡봇 플레이 스토어](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko)
+<br>[닼토님의 카카오톡봇](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko)
 
 <br>1. 포켓몬고 하시는분들 대부분 2폰이실테니, 메인폰이 아닌 곳에 카톡봇을 돌리시면 됩니다.
 <br>2. [카카오톡봇 설치하기](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko) 에서 따라가셔서 일단 카카오톡봇 설치 및 환경설정을 하시면 됩니다.
