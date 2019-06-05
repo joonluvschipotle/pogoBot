@@ -1,22 +1,19 @@
 # 포켓몬고 레이드/출석부 제보봇
 포켓몬고 도곡대치방 도리에 사용된 스크립트입니다.<br>
+저는 해당 방에서 하입이라는 아이디를 사용한 유저구요.<br>
 제 미천한 코드가 도움이 될지 모르겠으나, 편하게 가져가서 쓰세요.<br>
 출처 남기지 않으셔도 됩니다. (원출처인 Dark Tornado님껀 남겨주세요)
 
 # 기본적인 세팅
 Dark Tornado 님의 카카오톡 봇을 사용합니다.
-<br>[닼토님의 블로그](https://m.blog.naver.com/PostView.nhn?blogId=dt3141592&logNo=221213789127&proxyReferer=https%3A%2F%2Fwww.google.com%2F)
-<br>[닼토님의 깃헙](https://github.com/DarkTornado)
-<br>[닼토님의 카카오톡봇](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko)
-
+<br>[닼토님의 블로그](https://m.blog.naver.com/PostView.nhn?blogId=dt3141592&logNo=221213789127&proxyReferer=https%3A%2F%2Fwww.google.com%2F) / [닼토님의 깃헙](https://github.com/DarkTornado) / [닼토님의 카카오톡봇](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko)
 <br>1. 포켓몬고 하시는분들 대부분 2폰이실테니, 메인폰이 아닌 곳에 카톡봇을 돌리시면 됩니다.
-<br>2. [카카오톡봇 설치하기](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko) 에서 따라가셔서 일단 카카오톡봇 설치 및 환경설정을 하시면 됩니다.
+<br>2. [카카오톡봇](https://play.google.com/store/apps/details?id=com.darktornado.kakaobot&hl=ko) 어플을 설치하시고 환경설정을 하시면 됩니다.
 <br>3. 카카오톡봇 앱에서 카카오톡봇을 자바스크립트(javascript)로 생성합니다. (이름을 지어주세요)
 <br>4. 생성 후 폰을 컴퓨터에 연결하시면 Kakaobot 폴더 내에 아까 생성한 봇 이름으로 폴더가 있을 겁니다. 그 안에 이 깃헙에 있는 KakaoBot.js 파일을 넣어주세요 (덮어 써주세요).
 <br>5. 폰에 컴퓨터를 연결하고 폰에 접속하자마자 있는 폴더에 DoriDB와 UniqueDB를 폴더째로 넣어주세요.
 <br>6. 카카오톡봇 앱에 접속하여 생성한 봇의 점3개 메뉴를 클릭하여 리로드를 누릅니다.
 <br>7. 이러면 대충 돌아갈겁니다. 안돌아가면 그때부터 코드를 좀 보셔야할텐데 굳럭입니다.
-
 
 # 기본적인 업데이트 방법
 리서치, 레이드 정보 등이 바뀜에 따라, 업데이트가 필요할겁니다.<br>
