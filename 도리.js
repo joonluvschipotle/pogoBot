@@ -1,6 +1,8 @@
+const scriptName="도리.js";
+
 //원작자 Dark Tornado님 - https://github.com/DarkTornado/KakaoTalkBot-Examples/blob/master/%EC%95%84%EC%9D%B4%EC%B9%B4.js
 //진짜 개발새발로 쓴 코드니까, 읽으시는 모든 여러분 화이팅..
-//닼토님 봇 어플을 사용할때 쓰는 코드입니다.
+//Violet XF님?의 봇 앱을 사용할때 사용하는 코드입니다.
 
 const sdcard = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //내장메모리 최상위 경로
 
@@ -2188,18 +2190,44 @@ function procCmd(room, cmd, sender, replier) {
     }
     
     if (cmd == "/배터리") {
-        replier.reply(
-            "모델명: " + Device.getModelName() + "\n" +
-            "안드로이드 버전: " + Device.getAndroidVersion() + "\n" +
-            "안드로이드 API: " + Device.getApiLevel() + "\n" +
-            "베터리 잔량: " + Device.getBatteryLevel() + "% \n" +
-            "베터리 온도: " + Device.getBatteryTemp() + "°C"
-        );
+        var fill=["알수없음","충전중","충전중 아님","충전완료 후 충전중 아님","충전 완료"];
+
+        var ifilter = new android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED);
+        var batteryStatus = Api.getContext().registerReceiver(null, ifilter);
+        var battery=batteryStatus.getIntExtra(android.os.BatteryManager.EXTRA_STATUS, -1);
+        var voltage=batteryStatus.getIntExtra(android.os.BatteryManager.EXTRA_VOLTAGE, -1);
+        var level = batteryStatus.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1);
+        var scale = batteryStatus.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1);
+        var am = Api.getContext().getSystemService(Api.getContext().ACTIVITY_SERVICE);
+        var mem = new android.app.ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mem);
+        var temp = batteryStatus.getIntExtra(android.os.BatteryManager.EXTRA_TEMPERATURE, -1);
+        var ms1=java.lang.System.currentTimeMillis();
+        var ms2=java.lang.System.currentTimeMillis();
+        var ps=(((ms2-ms1)/1000)+"초");
+        
+        replier.reply ("[도리 상태]\n\n전원 : 켜짐\n현재상태 : "+fill[battery-1]+"\n램 : " + (mem.availMem/mem.totalMem*100).toFixed(2) + "% 남음\n배터리 : " + Math.round(level/scale*100) + "%\n온도 : " + Math.round(temp)/10 + "°C\n전압 : "+voltage+"mv");
     }
+        
+    if (cmd== "/리로드"){
+        Api.reload();
+        replier.reply('리로드 완료'); 
+    }
+    
+    
 }
 
-
-function response(room, msg, sender, isGroupChat, replier) {
+function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId){
+    /*(이 내용은 길잡이일 뿐이니 지우셔도 무방합니다)
+     *(String) room: 메시지를 받은 방 이름
+     *(String) msg: 메시지 내용
+     *(String) sender: 전송자 닉네임
+     *(boolean) isGroupChat: 단체/오픈채팅 여부
+     *replier: 응답용 객체. replier.reply("메시지") 또는 replier.reply("방이름","메시지")로 전송
+     *(String) ImageDB.getProfileImage(): 전송자의 프로필 이미지를 Base64로 인코딩하여 반환
+     *(String) packageName: 메시지를 받은 메신저의 패키지 이름. (카카오톡: com.kakao.talk, 페메: com.facebook.orca, 라인: jp.naver.line.android
+     *(int) threadId: 현재 쓰레드의 순번(스크립트별로 따로 매김)     *Api,Utils객체에 대해서는 설정의 도움말 참조*/
+    
     if (msg.includes('  ')){
         msg = msg.replace('    ',' '); msg = msg.replace('   ',' '); msg = msg.replace('  ',' ');
     }
@@ -3075,3 +3103,23 @@ function response(room, msg, sender, isGroupChat, replier) {
     }
 }
 
+    
+
+function onStartCompile(){
+    /*컴파일 또는 Api.reload호출시, 컴파일 되기 이전에 호출되는 함수입니다.
+     *제안하는 용도: 리로드시 자동 백업*/
+    
+}
+
+//아래 4개의 메소드는 액티비티 화면을 수정할때 사용됩니다.
+function onCreate(savedInstanceState,activity) {
+    var layout=new android.widget.LinearLayout(activity);
+    layout.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+    var txt=new android.widget.TextView(activity);
+    txt.setText("액티비티 사용 예시입니다.");
+    layout.addView(txt);
+    activity.setContentView(layout);
+}
+function onResume(activity) {}
+function onPause(activity) {}
+function onStop(activity) {}
