@@ -19,32 +19,41 @@ Dark Tornado 님의 카카오톡 봇을 사용했다가..최근 바꿨습니다
 <br>7. 이러면 대충 가장 필요한 기능들 (제보와 팟은) 돌아갈겁니다. 안돌아가면 그때부터 코드를 좀 보셔야할텐데 굳럭입니다.
 
 # 기본 명령어 모음
-![명령어 그림](https://user-images.githubusercontent.com/24535854/61105750-d15bc900-a4b5-11e9-86d2-26720aa9919f.png)
+![명령어 리스트](https://user-images.githubusercontent.com/24535854/61108561-9198df80-a4bd-11e9-9607-a50cf1b88b8b.png)
 <br><br><br>
 # 레이드 제보, 팟, 리서치 관련 명령어 그림
-## 레이드 현황, 삭제, 변경, 리셋 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 리서치 제보, 현황, 삭제, 리셋
-<img src="https://user-images.githubusercontent.com/24535854/61105452-ed129f80-a4b4-11e9-99d3-d22fe9c8138b.jpg" width="350">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105457-edab3600-a4b4-11e9-86cf-23a691fdf1a3.jpg" width="350"><br><br>
+## 레이드 현황, 삭제, 변경, 리셋
+<img src="https://user-images.githubusercontent.com/24535854/61108316-f869c900-a4bc-11e9-80e7-2bd33125de98.jpg" width="350"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61108315-f7d13280-a4bc-11e9-82eb-1427ec5231fe.jpg" width="350"><br><br>
 ## 팟 생성, 삭제, 리셋, 명단추가, 명단제거, 내용변경, 연타추가
-<img src="https://user-images.githubusercontent.com/24535854/61105450-ed129f80-a4b4-11e9-8e1d-76d119e0ed99.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105468-ef74f980-a4b4-11e9-8615-919c20aa3fd3.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105460-edab3600-a4b4-11e9-9f12-7cfb9a6eca99.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105467-ef74f980-a4b4-11e9-82f7-e809c8cc3812.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105450-ed129f80-a4b4-11e9-8e1d-76d119e0ed99.jpg" width="215"> <img src="https://user-images.githubusercontent.com/24535854/61105468-ef74f980-a4b4-11e9-8615-919c20aa3fd3.jpg" width="215"> <img src="https://user-images.githubusercontent.com/24535854/61105460-edab3600-a4b4-11e9-9f12-7cfb9a6eca99.jpg" width="215"> <img src="https://user-images.githubusercontent.com/24535854/61105467-ef74f980-a4b4-11e9-82f7-e809c8cc3812.jpg" width="215"><br><br>
+
+## 리서치 제보, 현황, 삭제, 리셋
+<img src="https://user-images.githubusercontent.com/24535854/61105457-edab3600-a4b4-11e9-86cf-23a691fdf1a3.jpg" width="350"><br><br>
 
 ## 전부 리셋
 <img src="https://user-images.githubusercontent.com/24535854/61105463-eedc6300-a4b4-11e9-9fd8-9f75edd8152c.jpg" width="300"><br><br>
 <br><br>
 # 레이드 관련이 아닌 정보 명령어
-## 포켓몬 도감 검색&nbsp;&nbsp;&nbsp;&nbsp;EX나눔, 현황, 완료
-<img src="https://user-images.githubusercontent.com/24535854/61105451-ed129f80-a4b4-11e9-8c25-4df2fedd7a53.jpg" width="350">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105434-dff5b080-a4b4-11e9-8829-6900eccf8a77.jpg" width="350"><br><br>
+## 포켓몬 도감 검색
+<img src="https://user-images.githubusercontent.com/24535854/61105451-ed129f80-a4b4-11e9-8c25-4df2fedd7a53.jpg" width="350"><br><br>
 ## 특정 타입 정보
-<img src="https://user-images.githubusercontent.com/24535854/61105465-eedc6300-a4b4-11e9-9c65-3dbfe9bbf8e2.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105465-eedc6300-a4b4-11e9-9c65-3dbfe9bbf8e2.jpg" width="350"><br><br>
 ## 리서치 검색
-<img src="https://user-images.githubusercontent.com/24535854/61105455-ed129f80-a4b4-11e9-82e0-2353637cb121.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105455-ed129f80-a4b4-11e9-82e0-2353637cb121.jpg" width="350"><br><br>
 ## 이벤트, 커뮤데이 정보
-<img src="https://user-images.githubusercontent.com/24535854/61105462-ee43cc80-a4b4-11e9-9b09-5655c4603529.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105462-ee43cc80-a4b4-11e9-9b09-5655c4603529.jpg" width="350"><br><br>
+## 둥지
+<img src="https://user-images.githubusercontent.com/24535854/61108662-e2a8d380-a4bd-11e9-944b-72b24fcd72dc.jpg" width="350"><br><br>
+
+# 그 외
 ## 방 관련 정보
-<img src="https://user-images.githubusercontent.com/24535854/61105466-eedc6300-a4b4-11e9-8adb-8513e9e4f469.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105466-eedc6300-a4b4-11e9-8adb-8513e9e4f469.jpg" width="350"><br><br>
 ## 사용방법
-<img src="https://user-images.githubusercontent.com/24535854/61105464-eedc6300-a4b4-11e9-96d9-11038f7d70eb.jpg" width="200"><br><br>
-## 그 외 잡다 기능
-<img src="https://user-images.githubusercontent.com/24535854/61105459-edab3600-a4b4-11e9-9f68-a8f801e8862b.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105464-eedc6300-a4b4-11e9-96d9-11038f7d70eb.jpg" width="350"><br><br>
+## EX나눔, 현황, 완료
+<img src="https://user-images.githubusercontent.com/24535854/61105434-dff5b080-a4b4-11e9-8829-6900eccf8a77.jpg" width="350"><br><br>
+## 잡다 기능
+<img src="https://user-images.githubusercontent.com/24535854/61105459-edab3600-a4b4-11e9-9f68-a8f801e8862b.jpg" width="350"><br><br>
 
 
 # 기본적인 업데이트 방법
