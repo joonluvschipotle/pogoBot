@@ -23,6 +23,9 @@ Dark Tornado 님의 카카오톡 봇을 사용했다가..최근 바꿨습니다
 <br><br><br>
 # 레이드 제보, 팟, 리서치 관련 명령어 그림
 ## 레이드 제보, 현황 보기, 삭제, 변경, 리셋
+
+<img src="https://user-images.githubusercontent.com/24535854/61105452-ed129f80-a4b4-11e9-99d3-d22fe9c8138b.jpg" width="400">
+흠 되나
 ![레이드 제보](https://user-images.githubusercontent.com/24535854/61105452-ed129f80-a4b4-11e9-99d3-d22fe9c8138b.jpg){: width="400"}<br><br>
 ## 팟 생성, 삭제, 리셋
 ![팟 생성 현황](https://user-images.githubusercontent.com/24535854/61105450-ed129f80-a4b4-11e9-8e1d-76d119e0ed99.jpg){: width="400"}<br><br>
