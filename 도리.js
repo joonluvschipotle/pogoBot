@@ -1963,39 +1963,27 @@ Utils.getNestInfo = function() { //도리야 인니페이 시세
 //둥지 실험
 function getNestTest() {
     try{
-        var data = Utils.getWebText("https://www.pogodungi.com/");  //검색 결과 파싱
+        var data = Utils.getWebText("https://docs.google.com/spreadsheets/d/1WlOLtVOL4RXq7nA0ZP4ihSrVRGKJiutSmMhSj6dCRu0/gviz/tq?");  //검색 결과 파싱
         data = data.replace(/<[^>]+>/g,"");  //태그 삭제
         
-        //return data;
+        data = data.split('공지')[1];
+        data = data.split('{"c":[{"v":"O"},');
+        //return data.join('\n');
         
-        data = data.split('// 초성검색 초기화')[1];
-        data = data.split('// 문자열 검색 || 초성검색')[0];
+        var nestPeriod = data[0].split('{"v":"')[1].split('"}')[0] + ' 둥지 정보\n[업데이트 : ' + data[0].split(',{"v":"')[2].split('"}')[0] + ']';
+        nestPeriod = nestPeriod.replace('월 ','/'); nestPeriod = nestPeriod.replace('월 ','/'); nestPeriod = nestPeriod.replace('월 ','/');
+        nestPeriod = nestPeriod.replace('일',''); nestPeriod = nestPeriod.replace('일',''); nestPeriod = nestPeriod.replace('일','');
         
+        //var nestPeriod = '업데이트 시간: ' + data[1].split(',{"v":"')[1];
         
-        var dataList = data.split('{');
-        var returnList = '현재 둥지 정보';
+        var nestData = '';
         
-        for (var i = 1; i < dataList.length; i++){
-            var initialLine = dataList[i];
-            var poke_name = initialLine.split('poke_name":"')[1].split('",')[0];
-            //고래왕자
-            
-            var location_name = initialLine.split('location_name":"')[1].split('",')[0];
-            //효창공원
-            
-            var inform_accuracy = initialLine.split('inform_accuracy":"')[1].split('",')[0];
-            if (parseInt(inform_accuracy) > 0){
-                inform_accuracy = '';
-            } else {
-                inform_accuracy = ' [불확실]'
-            }
-            
-            returnList = returnList + '\n' + location_name + " : " + poke_name + inform_accuracy;
+        for (var nestIter = 1; nestIter < data.length; nestIter++){
+            var initialNestLocation = data[nestIter].split('{"v":"')[1].split('"}')[0];
+            var initialNestMonster = data[nestIter].split('{"v":"')[2].split('"}')[0];
+            nestData = nestData + '\n' + initialNestLocation + ' : ' + initialNestMonster;
         }
-        
-        
-        
-        return returnList;
+        return nestPeriod + '\n' + nestData;
         
 
     } catch(e) {
@@ -2469,7 +2457,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         //여기 아래부터는 else if로. 혹시 모르니까
         //둥지 정보
         if (msg.includes('둥지')){
-            replier.reply('pogodungi로부터 최신 둥지 정보를 받는 중입니다.'); msg = 'dd';
+            replier.reply('darkrai.synology로부터 최신 둥지 정보를 받는 중입니다.'); msg = 'dd';
             returnText = getNestTest(); msg = 'DONEDONE';
         } else if (msg.includes('검색') && msg.includes('키워드')){
             returnText = keyToText(null,'searchKeywords');
