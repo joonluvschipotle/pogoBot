@@ -22,8 +22,8 @@ Dark Tornado 님의 카카오톡 봇을 사용했다가..최근 바꿨습니다
 ![명령어 그림](https://user-images.githubusercontent.com/24535854/61105750-d15bc900-a4b5-11e9-86d2-26720aa9919f.png)
 <br><br><br>
 # 레이드 제보, 팟, 리서치 관련 명령어 그림
-## 레이드 제보, 현황 보기, 삭제, 변경, 리셋 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp 리서치 제보, 현황 보기, 삭제, 리셋
-<img src="https://user-images.githubusercontent.com/24535854/61105452-ed129f80-a4b4-11e9-99d3-d22fe9c8138b.jpg" width="300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105457-edab3600-a4b4-11e9-86cf-23a691fdf1a3.jpg" width="300"><br><br>
+## 레이드 현황, 삭제, 변경, 리셋 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 리서치 제보, 현황, 삭제, 리셋
+<img src="https://user-images.githubusercontent.com/24535854/61105452-ed129f80-a4b4-11e9-99d3-d22fe9c8138b.jpg" width="350">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105457-edab3600-a4b4-11e9-86cf-23a691fdf1a3.jpg" width="350"><br><br>
 ## 팟 생성, 삭제, 리셋, 명단추가, 명단제거, 내용변경, 연타추가
 <img src="https://user-images.githubusercontent.com/24535854/61105450-ed129f80-a4b4-11e9-8e1d-76d119e0ed99.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105468-ef74f980-a4b4-11e9-8615-919c20aa3fd3.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105460-edab3600-a4b4-11e9-9f12-7cfb9a6eca99.jpg" width="200"> <img src="https://user-images.githubusercontent.com/24535854/61105467-ef74f980-a4b4-11e9-82f7-e809c8cc3812.jpg" width="200"><br><br>
 
@@ -32,7 +32,7 @@ Dark Tornado 님의 카카오톡 봇을 사용했다가..최근 바꿨습니다
 <br><br>
 # 레이드 관련이 아닌 정보 명령어
 ## 포켓몬 도감 검색&nbsp;&nbsp;&nbsp;&nbsp;EX나눔, 현황, 완료
-<img src="https://user-images.githubusercontent.com/24535854/61105451-ed129f80-a4b4-11e9-8c25-4df2fedd7a53.jpg" width="350">&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105434-dff5b080-a4b4-11e9-8829-6900eccf8a77.jpg" width="200"><br><br>
+<img src="https://user-images.githubusercontent.com/24535854/61105451-ed129f80-a4b4-11e9-8c25-4df2fedd7a53.jpg" width="350">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/24535854/61105434-dff5b080-a4b4-11e9-8829-6900eccf8a77.jpg" width="350"><br><br>
 ## 특정 타입 정보
 <img src="https://user-images.githubusercontent.com/24535854/61105465-eedc6300-a4b4-11e9-9c65-3dbfe9bbf8e2.jpg" width="200"><br><br>
 ## 리서치 검색
