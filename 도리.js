@@ -114,8 +114,8 @@ function getWeathetInfo(pos) {
         data = data.replace(/\n\n/g,'\n');
         data = data.split('\n'); 
         var results = [];
-        results[0] = '현재 온도는 ' + data[1].split('온도')[1] + "℃,"
-        results[1] = '체감 온도는 ' + data[2].split('온도')[1] + "℃에요!"; // 체감온도
+        results[0] = '현재 온도는 ' + data.join(' ').split('현재온도')[1].split('  ')[0] + "℃,";
+        results[1] = '체감 온도는 ' + data.join(' ').split('체감온도')[1].split('  ')[0] + "℃,";
         results[2] = ' ';
         results[3] = '오전 강수확률: ' + rainMorning + '%';
         results[4] = '오후 강수확률: ' + rainEvening + '%';
