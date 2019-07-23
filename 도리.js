@@ -757,7 +757,7 @@ function addConsecRoster (dbName, sender, rosterMSG, replier){
     
     if (theComboName.includes('aCombo!!')){
         //연타라서 변경할 것이 없다. 그냥 저장하고 말면 알아서 다 읽는다
-        finalRosterToAdd = theComboName + ',' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + 'TEMPTEMPTEMPTEMPTEMP' + "," + ',' + sender;
+        finalRosterToAdd = theComboName + ',' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + ',' + 'TEMPTEMPTEMPTEMPTEMP' + "," + sender;
         rosterList.push(finalRosterToAdd);
     } else {
         finalRosterToAdd = theOriginalRosterName + 'aCombo!!,' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + ',' + 'TEMPTEMPTEMPTEMPTEMP' + "," + sender;
