@@ -3,6 +3,7 @@ const scriptName="도리.js";
 //원작자 Dark Tornado님 - https://github.com/DarkTornado/KakaoTalkBot-Examples/blob/master/%EC%95%84%EC%9D%B4%EC%B9%B4.js
 //진짜 개발새발로 쓴 코드니까, 읽으시는 모든 여러분 화이팅..
 //Violet XF님?의 봇 앱을 사용할때 사용하는 코드입니다.
+//둥지는 다크라이님의 웹을 사용합니다 (동의를 받아 적습니다. 다크라이님 감사합니다) - https://darkrai.synology.me:9999/pokemongo.html
 
 const sdcard = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //내장메모리 최상위 경로
 
@@ -1962,6 +1963,8 @@ Utils.getNestInfo = function() { //도리야 인니페이 시세
 
 //둥지 실험
 function getNestTest() {
+    //둥지는 다크라이님의 웹을 사용합니다 (동의를 받아 적습니다. 다크라이님 감사합니다) - https://darkrai.synology.me:9999/pokemongo.html
+
     try{
         var data = Utils.getWebText("https://docs.google.com/spreadsheets/d/1WlOLtVOL4RXq7nA0ZP4ihSrVRGKJiutSmMhSj6dCRu0/gviz/tq?");  //검색 결과 파싱
         data = data.replace(/<[^>]+>/g,"");  //태그 삭제
