@@ -146,6 +146,66 @@ Utils.dustLevel2 = function(value) {
     return "매우나쁨";
 };
 
+Utils.getRaidBossData = function() { //보스목록을 불러오자
+    try{
+        var data = Utils.getWebText("https://thesilphroad.com/raid-bosses");  //검색 결과 파싱
+        data = data.replace(/<[^>]+>/g,"");  //태그 삭제
+
+        if (data.includes('EX Raids ')){
+            data = data.split('EX Raids ')[1]; // 앞에 지움
+            var bossList = '[EX 레이드]\n';
+        } else {
+            data = data.split("'ezslot_1',131,'0', 0])); ")[1]; // 앞에 지움. EX없을 시
+            var bossList = '보스 목록';
+        }
+        
+        data = data.split('©2019 The')[0]; // 뒤에 지움
+        data = data.replace(/ /g,"");  //공백 삭제
+        //data = data.replace(/\n\n/g,"");  //엔터 삭제
+
+        var pokemonList = DoriDB.readData('pokemonInfo').split('\n');
+        var isItAlolan = false;
+        var isItArmored = false;
+        var isItFirst = true;
+
+        var dataList = data.split('\n');
+
+        for (var i = 0; i < dataList.length; i++){
+            if (dataList[i].includes('Alolan')){isItAlolan = true;}
+            if (dataList[i].includes('Armored')){isItArmored = true;}
+
+            if (dataList[i].includes('Tier')){
+                var theTier = dataList[i].split('Tier')[1];
+                bossList = bossList + '\n\n[' + theTier + '성]\n';
+                isItFirst = true;
+            }
+
+            if (dataList[i].includes('#')){
+                var theLine = dataList[i];
+                theLine = theLine.split('#')[1];
+                theLine = theLine.split('-->')[0];
+                theLine = pokemonList[parseInt(theLine,10)].split(',')[1];
+                if (theLine.includes('[')){theLine = theLine.split('[')[0];}
+                if (isItAlolan == true){theLine = '알로라 ' + theLine;isItAlolan = false;}
+                if (isItArmored == true){theLine = '아머드 ' + theLine;isItArmored = false;}
+                if (isItFirst == true){
+                    bossList = bossList + theLine;
+                    isItFirst = false;
+                } else {
+                    bossList = bossList + ' / ' + theLine;
+                }
+                
+            }
+        }
+
+        
+        return bossList;
+
+    } catch(e) {
+        return "레이드 보스 불러오기 실패\n오류: " + e;
+    }
+}
+
 Utils.getIniPayRate = function() { //도리야 인니페이 시세
     try {
         var data = Utils.getTextFromWeb("https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=5000%EB%A3%A8%ED%94%BC%EC%95%84");
@@ -2473,7 +2533,8 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         } else if (msg.includes('지역') && (msg.includes('락') || msg.includes('한정'))){
             returnText = keyToText(null,"regionLock");
         } else if ((msg.includes('보스') || msg.includes('레이드')) && (msg.includes('목록') || msg.includes('리스트'))){
-            returnText = keyToText(null,"raidBossList2"); msg = 'DONEDONE';
+            replier.reply('실프로드로부터 레이드보스 목록을 불러옵니다.');
+            returnText = Utils.getRaidBossData(); msg = 'DONEDONE';
         } else if (msg.includes('이로치')){
             returnText = keyToText(null,'shiny');
         } else if (msg.includes('신오의 돌') || msg.includes('신오의돌')){
