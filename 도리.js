@@ -206,6 +206,43 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
     }
 }
 
+Utils.getEggHatch = function() { //알 부화 정보를 불러오자
+    try{
+        var data = Utils.getWebText("https://thesilphroad.com/egg-distances");  //검색 결과 파싱
+        data = data.replace(/<[^>]+>/g,"");  //태그 삭제
+        data = data.split('-->')[3];
+        data = data.split('2019 The Silph Road')[0];
+        data = data.replace(/  /g,"");
+        data = data.replace(/\n/g,"");  //엔터 삭제
+        data = data.replace(/  /g," ");data = data.replace(/  /g," ");data = data.replace(/  /g," ");
+        data = data.split('Eggs');
+
+        var hatchList = '알 부화 정보';
+
+        for(var i = 0; i < 1000; i++){
+            hatchList = hatchList + '\u200b';
+        }
+        hatchList = hatchList + '\n' + todayDate + ' 현재 실프로드 기준'
+        var pokemonList = DoriDB.readData('pokemonInfo').split('\n');
+        var eggDistance = [0,2,5,7,10];
+
+        for (var i = 1; i < data.length; i++){
+            dummyList = data[i].split('#');
+            hatchList = hatchList + '\n\n' + eggDistance[i] + 'KM';
+            for (var j = 1; j < dummyList.length; j++){
+                dummyPoke = dummyList[j].split(' ');
+                //hatchList = hatchList + '\n#' + dummyPoke[j] + ' ' + pokemonList[parseInt(dummyPoke[j],10)].split(',')[1] + ' 100 CP: ' + dummyPoke[5];
+                hatchList = hatchList + '\n#' + dummyPoke[0] + ' ' + pokemonList[parseInt(dummyPoke[0],10)].split(',')[1] + ' 백:' + dummyPoke[5] + ' 역백:' + dummyPoke[8];
+            }
+        }
+
+
+        return hatchList
+    } catch(e) {
+        return "알 부화 리스트 불러오기 실패\n오류: " + e;
+    }
+}
+
 Utils.getIniPayRate = function() { //도리야 인니페이 시세
     try {
         var data = Utils.getTextFromWeb("https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=5000%EB%A3%A8%ED%94%BC%EC%95%84");
@@ -1981,77 +2018,53 @@ function findResearch (researchMSG){
 
 //레이드 및 리서치 관련 함수 끝
 
-//둥지 정보 받아오는 함수
-Utils.getNestInfo = function() { //도리야 인니페이 시세
-    try {
-        var data = Utils.getTextFromWeb("https://docs.google.com/spreadsheets/d/1hQQDODWt-_8zhbPGI6UfBu2GE7nx1voRVBFmQAUG7eA/pubhtml#");
-        data = data.split('Pokemon</td><td class="s0" dir="ltr">')[1].split('</td></tr></tbody></table></div></div><div id="685841256" style="display:none;position:relative;"')[0];
-        data = data.split('<td class="s2" dir="ltr">');
-        
-        var cutTags = data[0].split('</div></th><td class="s1" dir="ltr">')[1].split('</td><td class="s1" dir="ltr">');
-        
-        var nestLocation = '';
-        var nestPokemon = '';
-        
-        
-        var nestList = [];
-        //return nestList;
-        for (var i = 0; i < data.length-1; i++){
-            cutTags = data[i].split('</div></th><td class="s1" dir="ltr">')[1].split('</td><td class="s1" dir="ltr">');
-            nestLocation = cutTags[0];
-            nestPokemon = cutTags[1].split('</')[0];
-            
-            
-            
-            if (nestPokemon.includes('불확실')){
-                true;
+//둥지
+//둥지는 다크라이님의 웹을 사용합니다 (동의를 받아 적습니다. 다크라이님 감사합니다) - https://darkrai.synology.me:9999/pokemongo.html
+Utils.getNestTest = function(isItSmall) {
+    var data = Utils.getTextFromWeb("https://docs.google.com/spreadsheets/d/1WlOLtVOL4RXq7nA0ZP4ihSrVRGKJiutSmMhSj6dCRu0/gviz/tq?tq=SELECT%20*%20ORDER%20BY%20B%20ASC&sheet=%EB%91%A5%EC%A7%80%EC%A0%95%EB%B3%B4&tqx=responseHandler:my_callback");
+    data = data.replace(/<[^>]+>/g,"");  //태그 삭제
+    data = data.replace(/[{"v",}]/g,"");  //태그 삭제
+    data = data.replace(/::/g,"");  //태그 삭제
+
+    data = data.split('c:[:');
+
+    var nestData = data[1].split(':')[2] + ' 둥지 정보\n[업데이트: ' + data[1].split(':')[3] + ':' + data[1].split(':')[4] + ']\n';
+
+    nestData = nestData.replace('월','/'); nestData = nestData.replace('월','/'); nestData = nestData.replace('월','/');
+    nestData = nestData.replace('일',''); nestData = nestData.replace('일',''); nestData = nestData.replace('일','');
+
+    if (data.length > 10){
+        for(var i = 0; i < 1000; i++){
+            nestData = nestData + '\u200b';
+        }
+    }
+
+    for (var nestIter = 2; nestIter < data.length; nestIter++){
+        var dummy = data[nestIter].split(':');
+
+        if (!dummy[2].includes('둥지명')){
+            if (isItSmall.includes('소둥지')){
+                nestData = nestData + '\n' + dummy[2];
+                if (dummy[1]=='FALSE'){
+                    nestData = nestData + '(소) : ' + dummy[3];
+                } else {
+                    nestData = nestData + ' : ' + dummy[3];
+                }
             } else {
-                if (nestLocation.split('/')[1].includes('서울') || nestLocation.split('/')[1].includes('경기')){
-                    nestList.push(nestLocation.split('/')[0] + ' : ' + nestPokemon);
+                if (dummy[1]=='TRUE'){
+                    nestData = nestData + '\n' + dummy[2] + ' : ' + dummy[3];
                 }
             }
         }
-        
-        nestList.sort();
-        //data = data.trim();
-        return nestList.join('\n');
-    } catch (e) {
-        //Log.debug("인니페이 시세 정보 불러오기 실패\n오류: " + e + "\n위치: " + e.lineNumber);
-        return "둥지 정보 불러오기 실패\n오류: " + e;
+
     }
-};
 
-//둥지 실험
-function getNestTest() {
-    //둥지는 다크라이님의 웹을 사용합니다 (동의를 받아 적습니다. 다크라이님 감사합니다) - https://darkrai.synology.me:9999/pokemongo.html
-
-    try{
-        var data = Utils.getWebText("https://docs.google.com/spreadsheets/d/1WlOLtVOL4RXq7nA0ZP4ihSrVRGKJiutSmMhSj6dCRu0/gviz/tq?");  //검색 결과 파싱
-        data = data.replace(/<[^>]+>/g,"");  //태그 삭제
-        
-        data = data.split('공지')[1];
-        data = data.split('{"c":[{"v":"O"},');
-        //return data.join('\n');
-        
-        var nestPeriod = data[0].split('{"v":"')[1].split('"}')[0] + ' 둥지 정보\n[업데이트 : ' + data[0].split(',{"v":"')[2].split('"}')[0] + ']';
-        nestPeriod = nestPeriod.replace('월 ','/'); nestPeriod = nestPeriod.replace('월 ','/'); nestPeriod = nestPeriod.replace('월 ','/');
-        nestPeriod = nestPeriod.replace('일',''); nestPeriod = nestPeriod.replace('일',''); nestPeriod = nestPeriod.replace('일','');
-        
-        //var nestPeriod = '업데이트 시간: ' + data[1].split(',{"v":"')[1];
-        
-        var nestData = '';
-        
-        for (var nestIter = 1; nestIter < data.length; nestIter++){
-            var initialNestLocation = data[nestIter].split('{"v":"')[1].split('"}')[0];
-            var initialNestMonster = data[nestIter].split('{"v":"')[2].split('"}')[0];
-            nestData = nestData + '\n' + initialNestLocation + ' : ' + initialNestMonster;
-        }
-        return nestPeriod + '\n' + nestData;
-        
-
-    } catch(e) {
-        return "둥지 정보 불러오기 실패\n오류: " + e;
+    if (!nestData.includes('소')){
+        nestData = nestData + '\n\n만약 소둥지도 포함한 정보가 궁금하시면, ㅁ소둥지 라고 적어보세요';
     }
+
+    return nestData;
+
 }
 
 
@@ -2457,14 +2470,22 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         //세레비/뮤/화강돌/멜탄 리서치
         if (msg.includes('리서치') && !(msg.includes('삭제') || msg.includes('오보') || msg.includes('리셋') || msg.includes('목록') || msg.includes('제보') || msg.includes('끝났') || msg.includes('현황'))){
             var ininini = msg.replace('정보',''); var ininini = ininini.replace('리서치',''); ininini = ininini.trim();
-            if (msg.includes('화강돌')){
-                returnText = keyToText(null,'spiritombResearch'); msg = '화강돌';
+            if (msg.includes('스페셜 리서치')){
+                returnText = keyToText(null,'special_List'); msg = '스페셜';
+            } else if (msg.includes('뮤') || msg.includes('환상의 포켓몬')){
+                returnText = keyToText(null,'special_Mew'); msg = '뮤';
+            } else if (msg.includes('세레비') || msg.includes('시간을 초월')){
+                returnText = keyToText(null,'special_Celebi'); msg = '세레비';
+            } else if (msg.includes('화강돌') || msg.includes('돌에 숨겨진')){
+                returnText = keyToText(null,'special_Spirittomb'); msg = '화강돌';
             } else if (msg.includes('멜탄')){
-                returnText = keyToText(null,'meltanResearch'); msg = '멜탄';
-            } else if (msg.includes('세레비')){
-                returnText = keyToText(null,'celebiResearch'); msg = '세레비';
-            } else if (msg.includes('뮤')){
-                returnText = keyToText(null,'mewResearch'); msg = '뮤';
+                returnText = keyToText(null,'special_Meltan'); msg = '멜탄';
+            } else if (msg.includes('초보자') || msg.includes('이제라도 배우는')){
+                returnText = keyToText(null,'special_Newbie'); msg = '초보자';
+            } else if (msg.includes('로켓단') || msg.includes('수상한 단체')){
+                returnText = keyToText(null,'special_Rocket'); msg = '로켓단';
+            } else if (msg.includes('지라치') || msg.includes('깊이 잠이 든')){
+                returnText = keyToText(null,'special_Jirachi'); msg = '지라치';
             } else {
                 returnText = findResearch(ininini);
                 if (ininini.length == 0 || returnText == undefined){
@@ -2520,8 +2541,8 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         //여기 아래부터는 else if로. 혹시 모르니까
         //둥지 정보
         if (msg.includes('둥지')){
-            replier.reply('darkrai.synology로부터 최신 둥지 정보를 받는 중입니다.'); msg = 'dd';
-            returnText = getNestTest(); msg = 'DONEDONE';
+            replier.reply('darkrai.synology로부터 최신 둥지 정보를 받는 중입니다.');
+            returnText = Utils.getNestTest(msg); msg = 'DONEDONE';
         } else if (msg.includes('검색') && msg.includes('키워드')){
             returnText = keyToText(null,'searchKeywords');
         } else if (msg.includes('이벤트')){
@@ -2540,7 +2561,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         } else if (msg.includes('신오의 돌') || msg.includes('신오의돌')){
             returnText = keyToText(null,'sinnohstone');
         } else if (msg.includes('알') && msg.includes('부화')){
-            returnText = keyToText(null,"hatchList");
+            returnText =Utils.getEggHatch();
         } else if(msg.includes('평가')){
             if(msg.includes('발러')){returnText = keyToText(null,"valorAppraise");}
             if(msg.includes('미스틱')){returnText = keyToText(null,"mysticAppraise");}
