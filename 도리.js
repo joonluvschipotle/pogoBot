@@ -165,14 +165,17 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
 
         var pokemonList = DoriDB.readData('pokemonInfo').split('\n');
         var isItAlolan = false;
+        var isItGalarian = false;
         var isItArmored = false;
         var isItFirst = true;
 
         var dataList = data.split('\n');
 
+
         for (var i = 0; i < dataList.length; i++){
             if (dataList[i].includes('Alolan')){isItAlolan = true;}
             if (dataList[i].includes('Armored')){isItArmored = true;}
+            if (dataList[i].includes('Galarian')){isItGalarian = true;}
 
             if (dataList[i].includes('Tier')){
                 var theTier = dataList[i].split('Tier')[1];
@@ -188,6 +191,7 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
                 if (theLine.includes('[')){theLine = theLine.split('[')[0];}
                 if (isItAlolan == true){theLine = '알로라 ' + theLine;isItAlolan = false;}
                 if (isItArmored == true){theLine = '아머드 ' + theLine;isItArmored = false;}
+                if (isItGalarian == true){theLine = '가라르' + theLine;isItGalarian = false;}
                 if (isItFirst == true){
                     bossList = bossList + theLine;
                     isItFirst = false;
@@ -215,24 +219,63 @@ Utils.getEggHatch = function() { //알 부화 정보를 불러오자
         data = data.replace(/  /g,"");
         data = data.replace(/\n/g,"");  //엔터 삭제
         data = data.replace(/  /g," ");data = data.replace(/  /g," ");data = data.replace(/  /g," ");
-        data = data.split('Eggs');
+        data = data.split('* Species displaying 0 hatches HAVE been hatched in the Research Group')[0];
+        data = data.split('#');
+
+
+
+        //data = data.split('So Far');
 
         var hatchList = '알 부화 정보';
+
 
         for(var i = 0; i < 1000; i++){
             hatchList = hatchList + '\u200b';
         }
         hatchList = hatchList + '\n' + todayDate + ' 현재 실프로드 기준'
         var pokemonList = DoriDB.readData('pokemonInfo').split('\n');
-        var eggDistance = [0,2,5,7,10];
+        var eggDistance = ['2KM','5KM','10KM','5KM (걷기 보상)','10KM (걷기 보상)', '7KM (친구 선물)'];
+
+        hatchList = hatchList + '\n\n' + eggDistance[0];
+        var tick = 1;
+
+        for (var i = 2; i< data.length; i++){
+            var initialLine = data[i];
+            var getNumber = initialLine.split('10km')[0];
+            var getName = initialLine.split('10km')[1].split(' ')[0];
+            var getPercentile = initialLine.split(' ')[1];
+            var get100IV = initialLine.split(' ')[5];
+
+            getName = pokemonList[parseInt(getNumber,10)].split(',')[1]
+
+            hatchList = hatchList + '\n#' + getNumber + ' ' + getName + ' 100CP:' + get100IV;
+            
+            if (initialLine.includes('Eggs')){
+                hatchList = hatchList + '\n\n' + eggDistance[tick];
+                tick = tick+1;
+            }
+
+        }
+
+        return hatchList;
+        
+
+
 
         for (var i = 1; i < data.length; i++){
             dummyList = data[i].split('#');
             hatchList = hatchList + '\n\n' + eggDistance[i] + 'KM';
             for (var j = 1; j < dummyList.length; j++){
-                dummyPoke = dummyList[j].split(' ');
+                var dummyPoke = dummyList[j].split(' ');
                 //hatchList = hatchList + '\n#' + dummyPoke[j] + ' ' + pokemonList[parseInt(dummyPoke[j],10)].split(',')[1] + ' 100 CP: ' + dummyPoke[5];
-                hatchList = hatchList + '\n#' + dummyPoke[0] + ' ' + pokemonList[parseInt(dummyPoke[0],10)].split(',')[1] + ' 백:' + dummyPoke[5] + ' 역백:' + dummyPoke[8];
+
+                var dummyName = dumbPoke[0].split('km')[1];
+
+                //hatchList = hatchList + '\n#' + dummyPoke[0] //+ ' ' + pokemonList[parseInt(dummyPoke[0],10)].split(',')[1] + ' 백:' + dummyPoke[5] + ' 역백:' + dummyPoke[8];
+                hatchList = hatchList + '\n#' + dummyPoke[0].replace('10km','') + ' ' + pokemonList[parseInt(dummyName,10)].split(',')[1]// + ' 백:' + dummyPoke[5] + ' 역백:' + dummyPoke[8];
+
+
+
             }
         }
 
@@ -242,6 +285,7 @@ Utils.getEggHatch = function() { //알 부화 정보를 불러오자
         return "알 부화 리스트 불러오기 실패\n오류: " + e;
     }
 }
+
 
 Utils.getIniPayRate = function() { //도리야 인니페이 시세
     try {
@@ -333,6 +377,10 @@ function simpleTalk (msg){
 function pokemonInfoReturn (pokemon){
     if (pokemon=='가라도스'){pokemon=='갸라도스';}
     if (pokemon=='레쿠자'){pokemon=='레쿠쟈';}
+    if (pokemon=='아머드뮤츠'){pokemon=='아머드 뮤츠';}
+    if (pokemon.includes('아머드')){
+        pokemon == '아머드 뮤츠';
+    }
     if (pokemon.includes('기리티나')){pokemon = pokemon.replace('기리티나','기라티나');}
     if (pokemon.includes('왕쟈리')){pokemon = pokemon.replace('왕쟈리','왕자리');}
     //오타 계속 추가할 것
@@ -341,12 +389,16 @@ function pokemonInfoReturn (pokemon){
         var dbToUse = DoriDB.readData("pokemonINFO_form");
         pokemon = pokemon.replace('알로라',''); pokemon = pokemon.replace('폼',''); pokemon = pokemon.trim();
         isItForm = '알로라';
+    } else if (pokemon.includes('가라르')){
+        var dbToUse = DoriDB.readData("pokemonINFO_form");
+        pokemon = pokemon.replace('가라르',''); pokemon = pokemon.replace('폼',''); pokemon = pokemon.trim();
+        isItForm = '가라르';
     } else if (pokemon.includes('폼')){
         var dbToUse = DoriDB.readData("pokemonINFO_form");
         isItForm = pokemon.split(' ')[1]; isItForm = isItForm.replace('폼','');
         pokemon = pokemon.split(' ')[0];
     } else {
-        var dbToUse = DoriDB.readData("pokemonINFO");
+        var dbToUse = DoriDB.readData("pokemoninfo");
     }
     
     var keyNumber;
@@ -2028,43 +2080,125 @@ Utils.getNestTest = function(isItSmall) {
 
     data = data.split('c:[:');
 
-    var nestData = data[1].split(':')[2] + ' 둥지 정보\n[업데이트: ' + data[1].split(':')[3] + ':' + data[1].split(':')[4] + ']\n';
 
-    nestData = nestData.replace('월','/'); nestData = nestData.replace('월','/'); nestData = nestData.replace('월','/');
-    nestData = nestData.replace('일',''); nestData = nestData.replace('일',''); nestData = nestData.replace('일','');
+    var listToComplete = "]\n";
 
     if (data.length > 10){
         for(var i = 0; i < 1000; i++){
-            nestData = nestData + '\u200b';
+            listToComplete = listToComplete + '\u200b';
         }
     }
 
-    for (var nestIter = 2; nestIter < data.length; nestIter++){
-        var dummy = data[nestIter].split(':');
 
-        if (!dummy[2].includes('둥지명')){
-            if (isItSmall.includes('소둥지')){
-                nestData = nestData + '\n' + dummy[2];
-                if (dummy[1]=='FALSE'){
-                    nestData = nestData + '(소) : ' + dummy[3];
-                } else {
-                    nestData = nestData + ' : ' + dummy[3];
-                }
-            } else {
-                if (dummy[1]=='TRUE'){
-                    nestData = nestData + '\n' + dummy[2] + ' : ' + dummy[3];
-                }
+    for (var i = 1; i < data.length - 1; i++){
+        var dummyVal = data[i]
+        if (dummyVal.includes('힇')){
+            continue;
+        }
+        if (dummyVal.includes('전국') && (dummyVal.includes('오후') || dummyVal.includes('오전'))){
+            //전국:1월 23일 ~ 2월 5일:2월 3일 오후 4:11:
+            var dummyValeSome = dummyVal.split(':')
+            listToComplete =  dummyValeSome[3] + ' 둥지 정보\n업데이트 [' + dummyValeSome[4] + ':' + dummyValeSome[5] + listToComplete;
+        } else if (dummyVal.includes('수도권') && !(dummyVal.includes('인천') || dummyVal.includes('고양') || dummyVal.includes('일산') || dummyVal.includes('대구') || dummyVal.includes('부천') || dummyVal.includes('시흥') || dummyVal.includes('수원') || dummyVal.includes('월미') || dummyVal.includes('의왕') || dummyVal.includes('은평') || dummyVal.includes('의정부') || dummyVal.includes('파주') || dummyVal.includes('평택') || dummyVal.includes('평촌') || dummyVal.includes('화성') || dummyVal.includes('익산') || dummyVal.includes('군포') || dummyVal.includes('안산') || dummyVal.includes('동탄') || dummyVal.includes('광교'))) {
+            listToComplete = listToComplete + '\n' + dummyVal.split(':')[3] + ' : ' + dummyVal.split(':')[4];
+        }
+    }
+
+    return listToComplete;
+}
+
+Utils.getResearchData = function() {
+    var data = Utils.getTextFromWeb("https://thesilphroad.com/research-tasks");
+    //data = data.replace(/<[^>]+>/g,"");  //태그 삭제
+    data = data.replace(/[{"",}]/g,"");  //태그 삭제
+    data = data.replace(/::/g,"");  //태그 삭제
+
+    data = data.split('Pokemon Encounters Only')[1];
+    data = data.split('©2020 The Silph Road | All Rights ')[0];
+
+    var divideResearch = data.split('<h3>');
+
+
+    //return divideResearch.join('\n\n\n');
+
+    var listToComplete = '리서치 목록\n[실프로드 실시간 기준]';
+    var listToUpdate = '';
+
+    for (var i = 0; i < 1000; i++){
+        listToComplete = listToComplete + '\u200b';
+    }
+
+    // for (var x = 1; x < divideResearch.length; x++){
+    //     var firstOne = divideResearch[x];
+    //     var getCategory = firstOne.split('<\/h3>')[0];
+    //     listToComplete = listToComplete + '\n' + getCategory;
+    // }
+
+    // return listToComplete;
+
+
+
+    for (var i = 1; i < divideResearch.length; i++){
+
+        var firstOne = divideResearch[i];
+
+        var getCategory = firstOne.split('<\/h3>')[0];
+        if (getCategory.includes('Sponsored')){
+            continue;
+        }
+        
+        listToComplete = listToComplete + '\n\n' + getCategory;
+
+        
+        var updateList
+        var taskAndPokemonList = firstOne.split('<\/h3')[1].split('taskText>');
+
+        
+
+        if (taskAndPokemonList.includes('pokemonOnly')){
+            //listToComplete = listToComplete + '\n\n\n\n\n' + taskAndPokemonList;
+            //<p class=
+            
+            for (var j = 1; j < taskAndPokemonList.length; j++){
+                var getTaskName = taskAndPokemonList[j].split('<br><span')[0];
+
+                if (taskAndPokemonList[j].includes('task-reward pokemon')){
+                    var getRewardNameList = taskAndPokemonList[j].split('96x96/');
+                    var getRewardName = ':'
+                    for (var k = 1; k < getRewardNameList.length; k++){
+                        var initialReward = getRewardNameList[k].split('.png')[0];
+                        
+
+
+                        var pokemonList = DoriDB.readData('pokemonInfo').split('\n');
+                        var formList = DoriDB.readData('dict_forms').split('\n');
+                        if(Number.isInteger(parseInt(initialReward))){
+                            initialReward = pokemonList[parseInt(initialReward,10)].split(',')[1];
+                        } else {
+                            //initialReward = formList;
+                            initialReward = formList[formList.indexOf(initialReward)-1]
+                        }
+
+                        getRewardName = getRewardName + ' ' + initialReward;
+
+                    }
+                    listToComplete = listToComplete + '\n' + getTaskName + getRewardName;
+                    listToUpdate = listToUpdate + getRewardName.replace(':','') + ',' + getTaskName + '\n';
+                } 
+
+                
             }
-        }
+            
+        }     
 
     }
+    listToUpdate = '알로, GO 로켓단 보스\n클리프, GO 로켓단 보스\n시에라, GO 로켓단 보스\n비주기, GO 로켓단 보스\n' + listToUpdate;
 
-    if (!nestData.includes('소')){
-        nestData = nestData + '\n\n만약 소둥지도 포함한 정보가 궁금하시면, ㅁ소둥지 라고 적어보세요';
-    }
+    DoriDB.saveData('researchDivide',listToUpdate);
+    return listToComplete;
 
-    return nestData;
-
+    //return papagoNMT('en','ko',listToComplete);
+    //return papagoNMT('ko','en','이게 왜 안되지? 왜 안녕밖에 안하지?');
 }
 
 
@@ -2428,6 +2562,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         return true;
     }
     
+    //로켓단 시에라 이름 변경
+    msg = msg.replace('시에라','Sierra');
+
     if (msg[0]=='ㅁ'){
         msg = msg.slice(1); 
         if (!msg.includes('정보')){msg = msg + '정보';}
@@ -2487,12 +2624,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
             } else if (msg.includes('지라치') || msg.includes('깊이 잠이 든')){
                 returnText = keyToText(null,'special_Jirachi'); msg = '지라치';
             } else {
-                returnText = findResearch(ininini);
-                if (ininini.length == 0 || returnText == undefined){
-                    returnText = keyToText(null,'researchList'); msg = 'none';
-                } else {
-                    msg = 'none';
-                }
+                returnText = Utils.getResearchData(); msg = 'DONEDONE';
             }
         }
 
@@ -2918,6 +3050,14 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     var useRoster = 'roster'; var useRaidStatus = 'raidStatus'; var useResearch = 'research';
     
     var rosterMemoTemp = 'TEMPTEMPTEMPTEMPTEMP';
+
+     //로켓단 제보 할 경우, 자동으로 리서치를 붙여주자
+     if (msg.includes('Sierra') || msg.includes('알로') || msg.includes('클리프') || msg.includes('비주기')){
+        if (!msg.includes('리서치')){
+            msg = msg + '리서치';
+        }
+    }
+    
     
     //출석부 현황을 보여주는 것 -> 팟 현황 or 출석부 현황
     
@@ -3146,8 +3286,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
     
     
-
     //리서치 시작
+    //이전에 바꿔둔것 바꾸기
+    msg = msg.replace('Sierra','시에라');
     if (msg.includes("리서치") && msg.includes("제보")){
         msg = msg.replace("제보", ""); msg = msg.replace("리서치",""); msg = msg.trim();
         returnText = researchReturn(useResearch, msg);
