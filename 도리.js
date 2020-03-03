@@ -219,9 +219,8 @@ Utils.getEggHatch = function() { //알 부화 정보를 불러오자
         data = data.replace(/  /g,"");
         data = data.replace(/\n/g,"");  //엔터 삭제
         data = data.replace(/  /g," ");data = data.replace(/  /g," ");data = data.replace(/  /g," ");
-        data = data.split('* Species displaying 0 hatches HAVE been hatched in the Research Group')[0];
+        data = data.split(' ©2020 The Silph Road | ')[0];
         data = data.split('#');
-
 
 
         //data = data.split('So Far');
@@ -242,7 +241,13 @@ Utils.getEggHatch = function() { //알 부화 정보를 불러오자
         for (var i = 2; i< data.length; i++){
             var initialLine = data[i];
             var getNumber = initialLine.split('10km')[0];
-            var getName = initialLine.split('10km')[1].split(' ')[0];
+            var getName = initialLine.split('10km')[1];//.split('100%')[0];
+            if (getName.includes('(')){
+                getName = getName.split('(')[0];
+                getName = getName.split(' ')[0];
+            } else {
+                getName = getName.split(' ')[0];
+            }
             var getPercentile = initialLine.split(' ')[1];
             var get100IV = initialLine.split(' ')[5];
 
@@ -285,7 +290,6 @@ Utils.getEggHatch = function() { //알 부화 정보를 불러오자
         return "알 부화 리스트 불러오기 실패\n오류: " + e;
     }
 }
-
 
 Utils.getIniPayRate = function() { //도리야 인니페이 시세
     try {
