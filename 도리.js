@@ -146,6 +146,7 @@ Utils.dustLevel2 = function(value) {
     return "매우나쁨";
 };
 
+
 Utils.getRaidBossData = function() { //보스목록을 불러오자
     try{
         var data = Utils.getWebText("https://thesilphroad.com/raid-bosses");  //검색 결과 파싱
@@ -154,9 +155,11 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
         if (data.includes('EX Raids ')){
             data = data.split('EX Raids ')[1]; // 앞에 지움
             var bossList = '[EX 레이드]\n';
-        } else {
-            data = data.split("'ezslot_1',131,'0', 0])); ")[1]; // 앞에 지움. EX없을 시
+        } else if (data.includes('Tier 5')) {
+            data = 'Tier 5' + data.split("Tier 5")[1]; // 앞에 지움. EX없을 시
             var bossList = '보스 목록';
+        } else {
+            return ('정보를 불러오지 못 했습니다')
         }
         
         data = data.split('©2019 The')[0]; // 뒤에 지움
