@@ -146,6 +146,7 @@ Utils.dustLevel2 = function(value) {
     return "매우나쁨";
 };
 
+
 Utils.getRaidBossData = function() { //보스목록을 불러오자
     try{
         var data = Utils.getWebText("https://thesilphroad.com/raid-bosses");  //검색 결과 파싱
@@ -1446,6 +1447,7 @@ function checkTime(dbName){
 
 //출석부 메모
 
+
 //출석부 관련 함수 끝
 
 //아래는 레이드 관련 함수
@@ -2263,7 +2265,6 @@ Utils.getResearchData = function() {
     //return papagoNMT('en','ko',listToComplete);
     //return papagoNMT('ko','en','이게 왜 안되지? 왜 안녕밖에 안하지?');
 }
-
 
 
 //_____ 위치 찾는 함수
