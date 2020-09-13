@@ -154,9 +154,14 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
         if (data.includes('EX Raids ')){
             data = data.split('EX Raids ')[1]; // 앞에 지움
             var bossList = '[EX 레이드]\n';
-        } else {
-            data = data.split("'ezslot_1',131,'0', 0])); ")[1]; // 앞에 지움. EX없을 시
+        } else if (data.includes('Mega Raids')) {
+            data = 'Mega Raids' + data.split("Mega Raids")[1]; // 앞에 지움. EX없을 시
+            var bossList = '[메가 레이드]\n';
+        } else if (data.includes('Tier 5')) {
+            data = 'Tier 5' + data.split("Tier 5")[1]; // 앞에 지움. EX없을 시
             var bossList = '보스 목록';
+        } else {
+            return ('정보를 불러오지 못 했습니다')
         }
         
         data = data.split('©2019 The')[0]; // 뒤에 지움
@@ -209,6 +214,7 @@ Utils.getRaidBossData = function() { //보스목록을 불러오자
         return "레이드 보스 불러오기 실패\n오류: " + e;
     }
 }
+
 
 Utils.getEggHatch = function() { //알 부화 정보를 불러오자
     try{
@@ -476,6 +482,12 @@ function pokemonInfoReturn (pokemon){
 function createRoster(dbName, sender, rosterMSG, rosterMemoTemp){
     //생성한다 팟
     //dbname,'하입','3시 30분 작은분수 3시 45분 군인공제 3계정 팟 연타 생성'
+    var remote = false;
+    if (rosterMSG.includes('원격') || rosterMSG.includes('리모트')){
+        rosterMSG = rosterMSG.replace(' 원격',''); rosterMSG = rosterMSG.replace(' 리모트','');
+        rosterMSG = rosterMSG.trim();
+        remote = true;
+    }
     var prepList = rosterPrepare(rosterMSG);
     var isItConsecutive = prepList[0]; rosterMSG = prepList[1]; var numOfaccounts = prepList[2]-1; //리턴값 나눈기
     var roster = UniqueDB.readData(dbName); // 출석부 목록 불러오기
@@ -486,6 +498,7 @@ function createRoster(dbName, sender, rosterMSG, rosterMemoTemp){
         if (numOfaccounts>0){
             var senderAc = sender + ' +' + numOfaccounts;
         } else {var senderAc = sender;}
+        if(remote){senderAc+=" [원격]";}
         var initialRoster = firstOne[2] + 'aCombo!!' + ',' + firstOne[0] + "," + firstOne[1] + "," + firstOne[2] + "," + rosterMemoTemp + "," + senderAc;
         var secondRoster = firstOne[2] + 'aCombo!!' + ',' + secondOne[0] + "," + secondOne[1] + "," + secondOne[2] + "," + senderAc;
         
@@ -502,6 +515,7 @@ function createRoster(dbName, sender, rosterMSG, rosterMemoTemp){
         if (numOfaccounts>0){
             var senderAc = sender + ' +' + numOfaccounts;
         } else {var senderAc = sender;}
+        if(remote){senderAc+=" [원격]";}
         
         var initialRoster = sender + ',' + timeList[0] + "," + timeList[1] + "," + timeList[2] + "," + rosterMemoTemp + "," + senderAc;
         if ((roster + ' ').includes(',')){
@@ -611,6 +625,23 @@ function rosterTimeSet (rosterMSG){
     var timeDivide = rosterMSG.split(' ');
     var startHR; var startMIN; var raidContent = rosterMSG;
     
+    if (raidContent.includes('시계') || raidContent.includes('전시') || raidContent.includes('시즌') || raidContent.includes('나시') || raidContent.includes('시타') || raidContent.includes('유크시')){
+        var tempContent = raidContent.split(' ');
+        for (var i=0;i<tempContent.length;i++){
+            if (tempContent[i].includes('전시') || tempContent[i].includes('시계') || tempContent[i].includes('시즌') || tempContent[i].includes('나시') || tempContent[i].includes('시타') || tempContent[i].includes('유크시')){
+                var tempVal = tempContent[i];
+                tempContent.splice(i,1);
+                tempContent.splice(50,0,tempVal);
+                raidContent = tempContent.join(' ');
+                
+                break;
+            }
+        }
+    }
+
+    raidContent = raidContent.replace('유크시','전설포켓몬유크어쩌구');
+    raidContent = raidContent.replace('시즌','쉬쉬쉬쉬쉬쉬준');
+    raidContent = raidContent.replace('시타','퀴퀴퀴퀴퀴퀴타');
     
     var swapIt = rosterMSG.split(' ');
     if (!(swapIt[0].includes('1시') || swapIt[0].includes('2시') || swapIt[0].includes('3시') || swapIt[0].includes('4시') || swapIt[0].includes('5시') || swapIt[0].includes('6시') || swapIt[0].includes('7시') || swapIt[0].includes('8시') || swapIt[0].includes('9시') || swapIt[0].includes('10시') || swapIt[0].includes('11시') || swapIt[0].includes('12시'))){//좀 멍청하긴한데, 그냥 이렇게 하자 ㅎㅎ;
@@ -671,6 +702,11 @@ function rosterTimeSet (rosterMSG){
             startMIN = 9;
         }
     }
+
+    raidContent = raidContent.replace('전설포켓몬유크어쩌구','유크시');
+    raidContent = raidContent.replace('쉬쉬쉬쉬쉬쉬준','시즌');
+    raidContent = raidContent.replace('퀴퀴퀴퀴퀴퀴타','시타');
+
     raidContent = raidContent.trim();
     if (parseInt(startMIN) < 10){
         startMIN = '0' + parseInt(startMIN);
@@ -791,7 +827,9 @@ function readThisRoster (rosterList){
             for (var j = 5;j<rosterToUse.length;j++){
                 printable = printable + '\n' + (j-4) + '. ' + rosterToUse[j];
                 if (rosterToUse[j].includes('+')){
-                    var theAccN = parseInt(rosterToUse[j].split('+')[1]);
+                    var theAccN = rosterToUse[j].split('+')[1];
+                    theAccN = theAccN.replace('[원격]',''); theAccN = theAccN.trim();
+                    theAccN = parseInt(theAccN);
                     accountCount = accountCount + theAccN;
                 }
                 accountCount++;
@@ -911,7 +949,7 @@ function addConsecRoster (dbName, sender, rosterMSG, replier){
     
     if (theComboName.includes('aCombo!!')){
         //연타라서 변경할 것이 없다. 그냥 저장하고 말면 알아서 다 읽는다
-        finalRosterToAdd = theComboName + ',' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + ',' + 'TEMPTEMPTEMPTEMPTEMP' + "," + sender;
+        finalRosterToAdd = theComboName + ',' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + ',' + 'TEMPTEMPTEMPTEMPTEMP' + "," + ',' + sender;
         rosterList.push(finalRosterToAdd);
     } else {
         finalRosterToAdd = theOriginalRosterName + 'aCombo!!,' + rosterAllDone[0] + ',' + rosterAllDone[1] + ',' + rosterAllDone[2] + ',' + 'TEMPTEMPTEMPTEMPTEMP' + "," + sender;
@@ -1101,6 +1139,13 @@ function rosterReset (dbName){ //출석부 리셋
 function participateRoster (dbName, rosterMSG, sender, replier){
     //팟 참석
     //연타 참석
+    var remote = false;
+    if (rosterMSG.includes('원격') || rosterMSG.includes('리모트')){
+        rosterMSG = rosterMSG.replace(' 원격',' '); rosterMSG = rosterMSG.replace(' 리모트',' ');
+        rosterMSG = rosterMSG.trim(); rosterMSG = rosterMSG.replace('  ',' ');
+        remote = true;
+    }
+
     var roster = UniqueDB.readData(dbName); // 출석부 목록 불러오기
     var consecName = ''; var getConsecList = [];
     rosterMSG = rosterPrepare(rosterMSG);
@@ -1108,6 +1153,8 @@ function participateRoster (dbName, rosterMSG, sender, replier){
     if (rosterMSG[2] > 1){
         sender = sender + ' +' + (rosterMSG[2]-1);
     }
+    if(remote){sender+=" [원격]";}
+
     
     if (rosterMSG[0]==false){
         //그냥 팟 참석임
@@ -1223,6 +1270,14 @@ function addPersonToRoster (dbName, rosterMSG, replier){
     rosterMSG = rosterMSG.replace('명단 추가','명단추가'); rosterMSG = rosterMSG.replace('명단추가 :','명단추가:');
     rosterMSG = rosterMSG.replace('명단추가:','명단추가'); rosterMSG = rosterMSG.replace('명단추가','');
     rosterMSG = rosterMSG.replace('  ',' ');
+
+    var remote = false;
+    if (rosterMSG.includes('원격') || rosterMSG.includes('리모트')){
+        rosterMSG = rosterMSG.replace(' 원격',' '); rosterMSG = rosterMSG.replace(' 리모트',' ');
+        rosterMSG = rosterMSG.trim(); rosterMSG = rosterMSG.replace('  ',' ');
+        remote = true;
+    }
+
     //rosterMSG = rosterMSG.split('명단추가');
     rosterMSG = rosterPrepare(rosterMSG);
     
@@ -1239,6 +1294,8 @@ function addPersonToRoster (dbName, rosterMSG, replier){
     if (rosterMSG[0]==true){
         rosterMSG[1] = rosterMSG[1] + ' 연타';
     }
+    if(remote){rosterMSG[1] = rosterMSG[1] + ' 원격';}
+
     participateRoster(dbName, rosterMSG[1],sender1,replier);
 }
 
@@ -1300,7 +1357,7 @@ function getOutFromRoster (dbName, sender, rosterMSG, replier){
                 getConsecList.push(initialRoster);
             }
         }
-        replier.reply(readThisRoster(getConsecList)); return;
+        //replier.reply(readThisRoster(getConsecList)); return;
         //printRoster(roster);
     } else {
         rosterMSG = rosterMSG.split(' ')[0].trim();
@@ -1329,7 +1386,7 @@ function getOutFromRoster (dbName, sender, rosterMSG, replier){
                         getConsecList.push(initialRoster);
                     }
                 }
-                replier.reply(readThisRoster(getConsecList)); return;
+                //replier.reply(readThisRoster(getConsecList)); return;
             }
         }
         return 'none';
@@ -1388,7 +1445,6 @@ function checkTime(dbName){
 }
 
 //출석부 메모
-
 
 //출석부 관련 함수 끝
 
@@ -2111,6 +2167,8 @@ Utils.getNestTest = function(isItSmall) {
     return listToComplete;
 }
 
+//리서치 테스트
+
 Utils.getResearchData = function() {
     var data = Utils.getTextFromWeb("https://thesilphroad.com/research-tasks");
     //data = data.replace(/<[^>]+>/g,"");  //태그 삭제
@@ -2164,7 +2222,8 @@ Utils.getResearchData = function() {
             //<p class=
             
             for (var j = 1; j < taskAndPokemonList.length; j++){
-                var getTaskName = taskAndPokemonList[j].split('<br><span')[0];
+                var getTaskName = taskAndPokemonList[j].split('.<br></p')[0];
+                // var getTaskName = taskAndPokemonList[j].split('<br><span')[0];
 
                 if (taskAndPokemonList[j].includes('task-reward pokemon')){
                     var getRewardNameList = taskAndPokemonList[j].split('96x96/');
@@ -2196,7 +2255,7 @@ Utils.getResearchData = function() {
         }     
 
     }
-    listToUpdate = '알로, GO 로켓단 보스\n클리프, GO 로켓단 보스\n시에라, GO 로켓단 보스\n비주기, GO 로켓단 보스\n' + listToUpdate;
+    listToUpdate = '알로, GO 로켓단 보스\n클리프, GO 로켓단 보스\n시에라, GO 로켓단 보스\n비주기, GO 로켓단 보스\n메가에너지, 퀘스트 다양\n이상한사탕, 퀘스트 다양\n' + listToUpdate;
 
     DoriDB.saveData('researchDivide',listToUpdate);
     return listToComplete;
@@ -2204,6 +2263,7 @@ Utils.getResearchData = function() {
     //return papagoNMT('en','ko',listToComplete);
     //return papagoNMT('ko','en','이게 왜 안되지? 왜 안녕밖에 안하지?');
 }
+
 
 
 //_____ 위치 찾는 함수
@@ -3055,11 +3115,35 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     
     var rosterMemoTemp = 'TEMPTEMPTEMPTEMPTEMP';
 
-     //로켓단 제보 할 경우, 자동으로 리서치를 붙여주자
-     if (msg.includes('Sierra') || msg.includes('알로') || msg.includes('클리프') || msg.includes('비주기')){
+    //로켓단 제보 할 경우, 자동으로 리서치를 붙여주자
+    if (!msg.includes('알로라') && (msg.includes('Sierra') || msg.includes('알로') || msg.includes('클리프') || msg.includes('비주기'))){
         if (!msg.includes('리서치')){
             msg = msg + '리서치';
         }
+    }
+
+    //메가 에너지 제보 변환
+    if (msg.includes('메가 진화')){
+        msg = msg.replace('메가 진화','메가에너지');
+    }
+    if (msg.includes('메가진화')){
+        msg = msg.replace('메가진화','메가에너지');
+    }
+    if (msg.includes('메가 에너지')){
+        msg = msg.replace('메가에너지','메가에너지');
+    }
+
+    //이상한 사탕 제보 변환
+    if (msg.includes('이상한 사탕') || msg.includes('이사탕')){
+        msg = msg.replace('이상한사탕','이상한사탕');
+        msg = msg.replace('이사탕','이상한사탕');
+    }
+
+    if (msg.includes('메가') && msg.includes('에너지') && !msg.includes('리서치')){
+        msg = msg + '리서치';
+    }
+    if (msg.includes('이상한') && msg.includes('사탕') && !msg.includes('리서치')){
+        msg = msg + '리서치';
     }
     
     
